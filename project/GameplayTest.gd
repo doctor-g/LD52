@@ -2,25 +2,46 @@ extends Node
 
 const bpm := 120
 
-# Tolerance in seconds
-export var tolerance = 0.2
+var EVENTS := [
+	{
+		"time": 1000,
+	},
+	{
+		"time": 1500
+	}
+]
+
+# Tolerance in milliseconds
+export var tolerance := 200
 
 var _start_ticks : int
+var _next_event_index := 0
 
 func _ready():
 	_start_ticks = Time.get_ticks_msec()
 	
 
 func _process(_delta):
-	var position = $AudioStreamPlayer.get_playback_position()
+	# Get the position in the stream in milliseconds
+	var position = $AudioStreamPlayer.get_playback_position() * 1000
 	
-	# Probably better to do this with a stream of events. Then, when the action
-	# is hit, it can be seen if it is within tolerance of the latest event,
-	# or if events are missed, the UI can be updated.
+	# If there are no more events, just exit
+	if _next_event_index >= EVENTS.size():
+		return
+	
+	var next_event = EVENTS[_next_event_index]
+	
+	# Did we miss one?
+	if position > next_event.time + tolerance:
+		print("MISSED ONE")
+		_next_event_index += 1
+		return
+
+	# We hit a key, so is it right or wrong?
 	if Input.is_action_just_pressed("test_trigger"):
-		if position < tolerance:
-			print("Just after, but good!")
-		elif 2.0 - position < tolerance:
-			print("Just before, but good!")
+		if position > next_event.time - tolerance or position < next_event.time + tolerance:
+			print("GOT IT")
+			_next_event_index += 1
 		else:
-			print("Nope")
+			print("Missed it, but you can try again without killing this event")
+	
