@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Object",
+"class": "RhythmEvent",
+"language": "GDScript",
+"path": "res://Song/RhythmEvent.gd"
+} ]
+_global_script_class_icons={
+"RhythmEvent": ""
+}
+
 [application]
 
 config/name="LD52"
@@ -16,14 +26,6 @@ config/icon="res://icon.png"
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
-
-[input]
-
-test_trigger={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
 
 [physics]
 

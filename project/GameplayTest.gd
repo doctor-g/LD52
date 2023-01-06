@@ -3,12 +3,9 @@ extends Node
 const bpm := 120
 
 var EVENTS := [
-	{
-		"time": 1000,
-	},
-	{
-		"time": 1500
-	}
+	RhythmEvent.new(1000, "ui_up"),
+	RhythmEvent.new(1500, "ui_up"),
+	RhythmEvent.new(2000, "ui_up")
 ]
 
 # Tolerance in milliseconds
@@ -37,11 +34,19 @@ func _process(_delta):
 		_next_event_index += 1
 		return
 
-	# We hit a key, so is it right or wrong?
-	if Input.is_action_just_pressed("test_trigger"):
-		if position > next_event.time - tolerance or position < next_event.time + tolerance:
-			print("GOT IT")
-			_next_event_index += 1
-		else:
-			print("Missed it, but you can try again without killing this event")
-	
+	# Are we in the window of the next event?
+	if next_event.time - tolerance <= position:
+		# Did we just hit the right input?
+		for action_name in ["ui_up", "ui_down", "ui_left", "ui_right"]:
+			if Input.is_action_just_pressed(action_name):
+				if next_event.action == action_name:
+					print("GOT IT")
+					_next_event_index += 1
+				else:
+					print("WRONG ACTION")
+					_next_event_index += 1
+	else:
+		# No action is expected here, but maybe they hit one
+		for action_name in ["ui_up", "ui_down", "ui_left", "ui_right"]:
+			if Input.is_action_just_pressed(action_name):
+				print("You hit an action but none was expected here")
