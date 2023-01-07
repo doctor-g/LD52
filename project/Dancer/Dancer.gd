@@ -20,12 +20,12 @@ func _ready():
 
 
 func _process(_delta):
-	_process_limb_rot("ui_left", $"%Hip_Left", _hip_left_rot, TAU/8)
-	_process_limb_rot("ui_right", $"%Hip_Right", _hip_right_rot, -TAU/8)
-	_process_limb_rot("ui_left", $"%Knee_Left", _knee_left_rot, -TAU/8)
-	_process_limb_rot("ui_right", $"%Knee_Right", _knee_right_rot, TAU/8)
-	_process_limb_rot("ui_up", $"%Shoulder_Left", _shoulder_left_rot, -TAU/8)
-	_process_limb_rot("ui_down", $"%Shoulder_Right", _shoulder_right_rot, TAU/8)
+	_process_limb_rot("left", $"%Hip_Left", _hip_left_rot, TAU/8)
+	_process_limb_rot("right", $"%Hip_Right", _hip_right_rot, -TAU/8)
+	_process_limb_rot("left", $"%Knee_Left", _knee_left_rot, -TAU/8)
+	_process_limb_rot("right", $"%Knee_Right", _knee_right_rot, TAU/8)
+	_process_limb_rot("up", $"%Shoulder_Left", _shoulder_left_rot, -TAU/8)
+	_process_limb_rot("down", $"%Shoulder_Right", _shoulder_right_rot, TAU/8)
 	
 
 func _process_limb(action:String, node:Node2D, origin:Vector2, offset:Vector2):

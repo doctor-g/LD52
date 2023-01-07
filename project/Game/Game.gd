@@ -14,7 +14,7 @@ var _next_target : HoldTarget = null
 
 
 func _ready():
-	var inputs := ["ui_up", "ui_down", "ui_left", "ui_right"]
+	var inputs := ["up", "down", "left", "right"]
 	
 	# Rather than hardcode it, the data can be generated. The easy song
 	# is eight measures, with a one measure lead-in, 

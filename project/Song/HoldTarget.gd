@@ -2,10 +2,10 @@ extends Node2D
 class_name HoldTarget
 
 const action_symbol_map = {
-	"ui_up": "↑",
-	"ui_down": "↓",
-	"ui_left": "←",
-	"ui_right": "→"
+	"up": "↑",
+	"down": "↓",
+	"left": "←",
+	"right": "→"
 }
 
 enum State { PENDING, STARTED, SUCCEEDED, FAILED  }
@@ -30,7 +30,7 @@ var end_time : float
 var _state = State.PENDING
 
 # The array of _other_ actions that are possible for points
-var _other_actions := ["ui_up", "ui_down", "ui_left", "ui_right"]
+var _other_actions := ["up", "down", "left", "right"]
 
 # If there is no value for a key, it has not been used.
 # If the value is STARTED, it's pressed.
