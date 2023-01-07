@@ -16,6 +16,8 @@ export var novel_other_action_points := 5
 # Points earned for pressing a separate action subsequent times
 export var repeat_other_action_points := 1
 
+# Should I be listening for inputs and processing them?
+var active := false
 var action : String
 var start_time : float
 var end_time : float
@@ -43,6 +45,9 @@ func _ready():
 
 
 func _process(_delta):
+	if not active:
+		return
+	
 	if _state==State.PENDING:
 		if Input.is_action_just_pressed(action) and _in_tolerance(start_time):
 			_set_state(State.STARTED)
