@@ -1,10 +1,12 @@
 extends Node
 
+# Format:
+#  [ measure, beat of measure to press, action, beats later to release ]
 const DATA := [
-	[1, 1, "ui_up"],
-	[1, 3, "ui_down"],
-	[2, 1, "ui_up"],
-	[2, 3, "ui_down"]
+	[1, 1, "ui_up", 1],
+	[1, 3, "ui_down", 1],
+	[2, 1, "ui_up", 1],
+	[2, 3, "ui_down", 1]
 ]
 
 const _RhythmTarget := preload("res://Song/RhythmTarget.tscn")
@@ -24,41 +26,42 @@ var _events := []
 
 var _start_ticks : int
 var _next_event_index := 0
+var _seconds_per_beat : float
+var _lead_in_duration : float
 
 func _ready():
 	_start_ticks = Time.get_ticks_msec()
+	_seconds_per_beat = 1.0 / tempo * 60
 	
-	var seconds_per_beat := 1.0 / tempo * 60
-	print("Seconds per beat: " + str(seconds_per_beat))
-	
-	# The duration of one measure in milliseconds
-	var lead_in_duration := beats_per_measure * seconds_per_beat * 1000
-	print("lead in duration " + str(lead_in_duration))
+	# Set lead-in to the duration of one measure in milliseconds
+	_lead_in_duration = beats_per_measure * _seconds_per_beat * 1000
 	
 	for datum in DATA:
 		var measure : int = datum[0]
 		var beat_of_measure : int = datum[1]
 		var action : String = datum[2]
+		var release : int = datum[3]
 		
 		var beat_of_song : int = (measure-1) * beats_per_measure + beat_of_measure
-		print("Beat of song " + str(beat_of_song))
-		# warning-ignore:narrowing_conversion
-		var time : int = (beat_of_song-1) * seconds_per_beat * 1000
 		
-		print("Time: " + str(time))
-		
-		var event := RhythmEvent.new(time, action)
-		_events.append(event)
-		
-		var target = _RhythmTarget.instance()
-		target.position = Vector2(event.time + lead_in_duration, 0)
-		target.event = event
-		$TargetArea.add_child(target)
+		_create_event(beat_of_song, action, RhythmEvent.PRESS)
+		_create_event(beat_of_song + release, action, RhythmEvent.RELEASE)
 	
 	# Wait the duration of one measure
-	yield(get_tree().create_timer(lead_in_duration / 1000), "timeout")
+	yield(get_tree().create_timer(_lead_in_duration / 1000), "timeout")
 	$AudioStreamPlayer.play()
 
+
+func _create_event(beat_of_song:int, action:String, type)->void:
+	# warning-ignore:narrowing_conversion
+	var time : int = (beat_of_song-1) * _seconds_per_beat * 1000
+	var event := RhythmEvent.new(time, action, type)
+	_events.append(event)
+		
+	var target = _RhythmTarget.instance()
+	target.position = Vector2(event.time + _lead_in_duration, 0)
+	target.event = event
+	$TargetArea.add_child(target)
 
 
 func _process(delta):
@@ -85,7 +88,7 @@ func _process(delta):
 	if next_event.time - tolerance <= position:
 		# Did we just hit the right input?
 		for action_name in ["ui_up", "ui_down", "ui_left", "ui_right"]:
-			if Input.is_action_just_pressed(action_name):
+			if _does_action_match(action_name, next_event.type):
 				if next_event.action == action_name:
 					print("GOT IT")
 					next_target.hit()
@@ -99,3 +102,8 @@ func _process(delta):
 		for action_name in ["ui_up", "ui_down", "ui_left", "ui_right"]:
 			if Input.is_action_just_pressed(action_name):
 				print("You hit an action but none was expected here")
+
+
+func _does_action_match(action:String, type)->bool:
+	return (type == RhythmEvent.PRESS and Input.is_action_just_pressed(action)) \
+		or (type == RhythmEvent.RELEASE and Input.is_action_just_released(action))

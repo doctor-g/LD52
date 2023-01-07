@@ -10,7 +10,8 @@ export var radius := 30
 
 func _ready():
 	assert(event!=null, "Don't forget to set the event!")
-	$Label.text = event.action.substr(3)
+	var header := "Press" if event.type==RhythmEvent.PRESS else "Release"
+	$Label.text = "%s\n%s" % [header, event.action.substr(3)]
 
 
 func hit()->void:
