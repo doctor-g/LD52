@@ -18,9 +18,6 @@ export var tempo := 90
 # Beats per MEASURE
 export var beats_per_measure := 4
 
-# Time before the song starts in ms
-export var lead_in_time := 1000
-
 # The list of rhythm target events.
 # Created by the _ready() function.
 var _events := []
@@ -33,6 +30,10 @@ func _ready():
 	
 	var seconds_per_beat := 1.0 / tempo * 60
 	print("Seconds per beat: " + str(seconds_per_beat))
+	
+	# The duration of one measure in milliseconds
+	var lead_in_duration := beats_per_measure * seconds_per_beat * 1000
+	print("lead in duration " + str(lead_in_duration))
 	
 	for datum in DATA:
 		var measure : int = datum[0]
@@ -50,11 +51,12 @@ func _ready():
 		_events.append(event)
 		
 		var target = _RhythmTarget.instance()
-		target.position = Vector2(event.time, 0)
+		target.position = Vector2(event.time + lead_in_duration, 0)
 		target.event = event
 		$TargetArea.add_child(target)
 	
-	#yield(get_tree().create_timer(lead_in_time / 1000), "timeout")
+	# Wait the duration of one measure
+	yield(get_tree().create_timer(lead_in_duration / 1000), "timeout")
 	$AudioStreamPlayer.play()
 
 
