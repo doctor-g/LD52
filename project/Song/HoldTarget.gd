@@ -1,6 +1,13 @@
 extends Node2D
 class_name HoldTarget
 
+const action_symbol_map = {
+	"ui_up": "↑",
+	"ui_down": "↓",
+	"ui_left": "←",
+	"ui_right": "→"
+}
+
 enum State { PENDING, STARTED, SUCCEEDED, FAILED  }
 
 enum OtherActionState { STARTED, FINISHED }
@@ -36,7 +43,7 @@ func _ready():
 	assert(action!=null)
 	assert(end_time!=0)
 	
-	$Label.text = action.substr(3) # Kludge for "ui_" labels
+	$Label.text = action_symbol_map[action]
 	
 	# Remove this action so that the other actions list is accurate.
 	_other_actions.remove(_other_actions.find(action))
