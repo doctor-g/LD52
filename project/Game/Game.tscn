@@ -31,7 +31,7 @@ texture = ExtResource( 8 )
 stream = ExtResource( 2 )
 
 [node name="Dancer" parent="." instance=ExtResource( 3 )]
-position = Vector2( 295, 254 )
+position = Vector2( 301, 288 )
 
 [node name="PlayAgainButton" type="Button" parent="."]
 unique_name_in_owner = true
