@@ -16,13 +16,13 @@ script = ExtResource( 1 )
 stream = ExtResource( 2 )
 
 [node name="HighlightedZone" type="ColorRect" parent="."]
-margin_left = 40.0
-margin_top = 347.0
-margin_right = 190.0
-margin_bottom = 497.0
+margin_left = 77.0
+margin_top = 702.0
+margin_right = 227.0
+margin_bottom = 852.0
 
 [node name="TargetArea" type="Node2D" parent="."]
-position = Vector2( 108, 417 )
+position = Vector2( 145, 772 )
 
 [node name="Dancer" parent="." instance=ExtResource( 3 )]
-position = Vector2( 113, 211 )
+position = Vector2( 291, 414 )
