@@ -3,16 +3,32 @@ class_name HoldTarget
 
 enum State { PENDING, STARTED, SUCCEEDED, FAILED  }
 
+enum OtherActionState { STARTED, FINISHED }
+
 # Points for starting at the right time
 export var start_points := 50
 # Points for ending at the right time
 export var end_points := 50
+
+# Points earned for pressing a separate action the first time
+export var novel_other_action_points := 5
+
+# Points earned for pressing a separate action subsequent times
+export var repeat_other_action_points := 1
 
 var action : String
 var start_time : float
 var end_time : float
 
 var _state = State.PENDING
+
+# The array of _other_ actions that are possible for points
+var _other_actions := ["ui_up", "ui_down", "ui_left", "ui_right"]
+
+# If there is no value for a key, it has not been used.
+# If the value is STARTED, it's pressed.
+# If it's FINISHED, it's completed.
+var _other_action_states = {}
 
 export var radius := 30
 
@@ -21,6 +37,9 @@ func _ready():
 	assert(end_time!=0)
 	
 	$Label.text = action.substr(3) # Kludge for "ui_" labels
+	
+	# Remove this action so that the other actions list is accurate.
+	_other_actions.remove(_other_actions.find(action))
 
 
 func _process(_delta):
@@ -43,6 +62,22 @@ func _process(_delta):
 		elif Globals.elapsed_audio > Globals.tolerance + end_time:
 			# Missed the release
 			_set_state(State.FAILED)
+		
+		# Check the other actions
+		for other in _other_actions:
+			if Input.is_action_just_pressed(other):
+				# Only earn max points if this is the first use
+				if not other in _other_action_states:
+					Globals.score += novel_other_action_points
+				else:
+					Globals.score += repeat_other_action_points
+				_other_action_states[other] = OtherActionState.STARTED
+
+			elif Input.is_action_just_released(other) \
+				and _other_action_states[other]==OtherActionState.STARTED:
+				_other_action_states[other] = OtherActionState.FINISHED
+		
+		
 
 
 func _in_tolerance(time:float)->bool:
