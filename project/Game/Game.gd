@@ -10,15 +10,7 @@ export var tempo := 90
 # Beats per MEASURE
 export var beats_per_measure := 4
 
-# The list of rhythm target events.
-# Created by the _ready() function.
-var _events := []
-
-var _next_event_index := 0
-
-# If we are currently holding for a target, this is it.
-# If this is null, we are not currently holding for a target
-var _current_target : Node2D
+var _next_target : HoldTarget = null
 
 
 func _ready():
@@ -61,9 +53,6 @@ func _ready():
 	_next_target = $TargetArea.get_child(0)
 	
 	$AudioStreamPlayer.play()
-
-var _next_target : HoldTarget = null
-var _next_target_index := 0
 
 
 func _process(delta):
