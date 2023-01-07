@@ -13,12 +13,12 @@ enum State { PENDING, STARTED, SUCCEEDED, FAILED  }
 enum OtherActionState { STARTED, FINISHED }
 
 # Points for starting at the right time
-export var start_points := 50
+export var start_points := 25
 # Points for ending at the right time
-export var end_points := 50
+export var end_points := 25
 
 # Points earned for pressing a separate action the first time
-export var novel_other_action_points := 5
+export var novel_other_action_points := 10
 
 # Points earned for pressing a separate action subsequent times
 export var repeat_other_action_points := 1
