@@ -1,13 +1,5 @@
 extends Node
 
-# Format:
-#  [ measure, beat of measure to press, action, beats later to release ]
-const DATA := [
-	[1, 1, "ui_up", 1],
-	[1, 3, "ui_down", 1],
-	[2, 1, "ui_up", 1],
-	[2, 3, "ui_down", 1]
-]
 
 # Tolerance in seconds
 export var tolerance := 0.1
@@ -33,6 +25,20 @@ var _current_target : Node2D
 
 
 func _ready():
+	var inputs := ["ui_up", "ui_down", "ui_left", "ui_right"]
+	
+	# Rather than hardcode it, the data can be generated. The easy song
+	# is eight measures, and we'll do things on beats 1 and 3
+	#
+	# Data Format:
+	#  [ measure, beat of measure to press, action, beats later to release ]
+	var DATA = []
+	for measure in range(1, 9):
+		var input : String = inputs[randi() % inputs.size()]
+		DATA.append([measure, 1, input, 1])
+		DATA.append([measure, 3, input, 1])
+	
+	
 	var seconds_per_beat := 1.0 / tempo * 60
 	
 	# Set lead-in to the duration of one measure in seconds
