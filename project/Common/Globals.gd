@@ -7,3 +7,7 @@ var elapsed_audio : float
 var tolerance := 0.1
 
 var score := 0 
+
+# The scale of the application's elements and speed.
+# This is "pixels per second of audio duration".
+var pixels_per_second := 500

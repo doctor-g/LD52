@@ -106,7 +106,7 @@ func _draw():
 		State.SUCCEEDED:
 			color = Color.green
 	
-	var width := (end_time - start_time) * 1000 # Assuming 1ms=1pixel
+	var width := (end_time - start_time) * Globals.pixels_per_second
 	draw_rect(Rect2(0, -radius, width, radius*2), color)
 	draw_circle(Vector2.ZERO, radius, color)
 	draw_circle(Vector2(width, 0), radius, color)

@@ -59,7 +59,7 @@ func _ready():
 		target.active = false
 		
 		$TargetArea.add_child(target)
-		target.position = Vector2(start_time*1000 + _lead_in_duration*1000, 0)
+		target.position = Vector2((start_time+_lead_in_duration)*Globals.pixels_per_second, 0)
 		
 	# Set the next target to the first one
 	_next_target = $TargetArea.get_child(0)
@@ -76,7 +76,7 @@ var _next_target_index := 0
 
 
 func _process(delta):
-	$TargetArea.position.x -= delta * 1000 # Later, this should relate to bpm and scale
+	$TargetArea.position.x -= delta * Globals.pixels_per_second
 	
 	# Get the position in the stream in seconds
 	# Update the global value
