@@ -9,13 +9,13 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Object",
-"class": "RhythmEvent",
+"base": "Node2D",
+"class": "HoldTarget",
 "language": "GDScript",
-"path": "res://Song/RhythmEvent.gd"
+"path": "res://Song/HoldTarget.gd"
 } ]
 _global_script_class_icons={
-"RhythmEvent": ""
+"HoldTarget": ""
 }
 
 [application]
@@ -23,6 +23,10 @@ _global_script_class_icons={
 config/name="LD52"
 run/main_scene="res://Game/Game.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Globals="*res://Common/Globals.gd"
 
 [gui]
 

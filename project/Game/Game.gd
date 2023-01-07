@@ -9,10 +9,8 @@ const DATA := [
 	[2, 3, "ui_down", 1]
 ]
 
-const _RhythmTarget := preload("res://Song/RhythmTarget.tscn")
-
-# Tolerance in milliseconds
-export var tolerance := 100
+# Tolerance in seconds
+export var tolerance := 0.1
 
 # Beats per MINUTE
 export var tempo := 90
@@ -26,84 +24,53 @@ var _events := []
 
 var _start_ticks : int
 var _next_event_index := 0
-var _seconds_per_beat : float
 var _lead_in_duration : float
+
+# If we are currently holding for a target, this is it.
+# If this is null, we are not currently holding for a target
+var _current_target : Node2D
+
 
 func _ready():
 	_start_ticks = Time.get_ticks_msec()
-	_seconds_per_beat = 1.0 / tempo * 60
+	var seconds_per_beat := 1.0 / tempo * 60
 	
 	# Set lead-in to the duration of one measure in milliseconds
-	_lead_in_duration = beats_per_measure * _seconds_per_beat * 1000
+	# Or comment this out to test faster
+	_lead_in_duration = beats_per_measure * seconds_per_beat * 1000
 	
 	for datum in DATA:
 		var measure : int = datum[0]
 		var beat_of_measure : int = datum[1]
 		var action : String = datum[2]
-		var release : int = datum[3]
+		var beats_until_release : int = datum[3]
 		
-		var beat_of_song : int = (measure-1) * beats_per_measure + beat_of_measure
+		var beat_of_song := (measure-1) * beats_per_measure + beat_of_measure
+		var start_time := (beat_of_song-1) * seconds_per_beat
+		var end_time := start_time + beats_until_release * seconds_per_beat
 		
-		_create_event(beat_of_song, action, RhythmEvent.PRESS)
-		_create_event(beat_of_song + release, action, RhythmEvent.RELEASE)
+		var target := preload("res://Song/HoldTarget.tscn").instance() as HoldTarget
+		target.action = action
+		target.start_time = start_time
+		target.end_time = end_time
+		
+		$TargetArea.add_child(target)
+		target.position = Vector2(start_time*1000 + _lead_in_duration, 0)
+		
+	# Set the next target to the first one
+	_next_target = $TargetArea.get_child(0)
 	
 	# Wait the duration of one measure
 	yield(get_tree().create_timer(_lead_in_duration / 1000), "timeout")
 	$AudioStreamPlayer.play()
 
-
-func _create_event(beat_of_song:int, action:String, type)->void:
-	# warning-ignore:narrowing_conversion
-	var time : int = (beat_of_song-1) * _seconds_per_beat * 1000
-	var event := RhythmEvent.new(time, action, type)
-	_events.append(event)
-		
-	var target = _RhythmTarget.instance()
-	target.position = Vector2(event.time + _lead_in_duration, 0)
-	target.event = event
-	$TargetArea.add_child(target)
+var _next_target : HoldTarget = null
+var _next_target_index := 0
 
 
 func _process(delta):
-	$TargetArea.position.x -= delta * 1000 # Later, this should relate to bpm
+	$TargetArea.position.x -= delta * 1000 # Later, this should relate to bpm and scale
 	
-	# Get the position in the stream in milliseconds
-	var position = $AudioStreamPlayer.get_playback_position() * 1000
-	
-	# If there are no more events, just exit
-	if _next_event_index >= _events.size():
-		return
-	
-	var next_event = _events[_next_event_index]
-	var next_target = $TargetArea.get_child(_next_event_index)
-	
-	# Did we miss one?
-	if position > next_event.time + tolerance:
-		print("MISSED ONE")
-		next_target.miss()
-		_next_event_index += 1
-		return
-
-	# Are we in the window of the next event?
-	if next_event.time - tolerance <= position:
-		# Did we just hit the right input?
-		for action_name in ["ui_up", "ui_down", "ui_left", "ui_right"]:
-			if _does_action_match(action_name, next_event.type):
-				if next_event.action == action_name:
-					print("GOT IT")
-					next_target.hit()
-					_next_event_index += 1
-				else:
-					next_target.miss()
-					print("WRONG ACTION")
-					_next_event_index += 1
-	else:
-		# No action is expected here, but maybe they hit one
-		for action_name in ["ui_up", "ui_down", "ui_left", "ui_right"]:
-			if Input.is_action_just_pressed(action_name):
-				print("You hit an action but none was expected here")
-
-
-func _does_action_match(action:String, type)->bool:
-	return (type == RhythmEvent.PRESS and Input.is_action_just_pressed(action)) \
-		or (type == RhythmEvent.RELEASE and Input.is_action_just_released(action))
+	# Get the position in the stream in seconds
+	# Update the global value
+	Globals.elapsed_audio = $AudioStreamPlayer.get_playback_position()
