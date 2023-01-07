@@ -46,17 +46,17 @@ func _ready():
 		target.start_time = start_time
 		target.end_time = end_time
 		
-		$TargetArea.add_child(target)
+		$"%TargetArea".add_child(target)
 		target.position = Vector2(start_time*Globals.pixels_per_second, 0)
 		
 	# Set the next target to the first one
-	_next_target = $TargetArea.get_child(0)
+	_next_target = $"%TargetArea".get_child(0)
 	
 	$AudioStreamPlayer.play()
 
 
 func _process(delta):
-	$TargetArea.position.x -= delta * Globals.pixels_per_second
+	$"%TargetArea".position.x -= delta * Globals.pixels_per_second
 	Globals.elapsed_audio = $AudioStreamPlayer.get_playback_position()
 
 
