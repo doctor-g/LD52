@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Dancer/Dancer.gd" type="Script" id=1]
 [ext_resource path="res://Dancer/wood.png" type="Texture" id=2]
+[ext_resource path="res://Dancer/eyes.png" type="Texture" id=3]
+[ext_resource path="res://Dancer/mouth.png" type="Texture" id=4]
 
 [node name="Dancer" type="Node2D"]
 script = ExtResource( 1 )
@@ -21,6 +23,7 @@ stretch_mode = 2
 
 [node name="Hip_Left" type="Node2D" parent="Pelvis"]
 unique_name_in_owner = true
+position = Vector2( -4, 1 )
 
 [node name="TextureRect" type="TextureRect" parent="Pelvis/Hip_Left"]
 margin_left = -9.0
@@ -145,8 +148,17 @@ texture = ExtResource( 2 )
 expand = true
 stretch_mode = 2
 
+[node name="Eyes" type="Sprite" parent="Pelvis/Neck/Head"]
+position = Vector2( -3, 4 )
+texture = ExtResource( 3 )
+
+[node name="Mouth" type="Sprite" parent="Pelvis/Neck/Head"]
+position = Vector2( -1, 31 )
+texture = ExtResource( 4 )
+
 [node name="Hip_Right" type="Node2D" parent="Pelvis"]
 unique_name_in_owner = true
+position = Vector2( 7, 1 )
 
 [node name="TextureRect" type="TextureRect" parent="Pelvis/Hip_Right"]
 margin_left = -8.0
