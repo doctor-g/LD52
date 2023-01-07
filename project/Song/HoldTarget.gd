@@ -3,6 +3,11 @@ class_name HoldTarget
 
 enum State { PENDING, STARTED, SUCCEEDED, FAILED  }
 
+# Points for starting at the right time
+export var start_points := 50
+# Points for ending at the right time
+export var end_points := 50
+
 var action : String
 var start_time : float
 var end_time : float
@@ -22,6 +27,7 @@ func _process(_delta):
 	if _state==State.PENDING:
 		if Input.is_action_just_pressed(action) and _in_tolerance(start_time):
 			_set_state(State.STARTED)
+			Globals.score += start_points
 		elif Globals.elapsed_audio > Globals.tolerance + start_time:
 			_set_state(State.FAILED)
 	
@@ -30,6 +36,7 @@ func _process(_delta):
 			if _in_tolerance(end_time):
 				# Released on time
 				_set_state(State.SUCCEEDED)
+				Globals.score += end_points
 			else:
 				# Released too early
 				_set_state(State.FAILED)
