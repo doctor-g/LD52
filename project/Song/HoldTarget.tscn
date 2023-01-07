@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Song/HoldTarget.gd" type="Script" id=1]
 [ext_resource path="res://Song/Merriweather-Black.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Song/miss.wav" type="AudioStream" id=3]
+[ext_resource path="res://Song/start_success.wav" type="AudioStream" id=4]
+[ext_resource path="res://Song/extra_success.wav" type="AudioStream" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 80
@@ -19,3 +22,12 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "X"
 align = 1
+
+[node name="MissSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="StartSuccessSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="ExtraSuccessSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )

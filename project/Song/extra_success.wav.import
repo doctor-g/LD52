@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/extra_success.wav-c073405a1c6819d668d900cc79436e53.sample"
+
+[deps]
+
+source_file="res://Song/extra_success.wav"
+dest_files=[ "res://.import/extra_success.wav-c073405a1c6819d668d900cc79436e53.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

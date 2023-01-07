@@ -76,6 +76,7 @@ func _process(_delta):
 				# Only earn max points if this is the first use
 				if not other in _other_action_states:
 					Globals.score += novel_other_action_points
+					$ExtraSuccessSound.play()
 				else:
 					Globals.score += repeat_other_action_points
 				_other_action_states[other] = OtherActionState.STARTED
@@ -92,6 +93,10 @@ func _in_tolerance(time:float)->bool:
 
 func _set_state(new_state)->void:
 	_state = new_state
+	if _state == State.FAILED:
+		$MissSound.play()
+	elif _state == State.STARTED:
+		$StartSuccessSound.play()
 	update()
 
 
