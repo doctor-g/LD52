@@ -16,9 +16,6 @@ var _events := []
 
 var _next_event_index := 0
 
-# In seconds
-var _lead_in_duration : float
-
 # If we are currently holding for a target, this is it.
 # If this is null, we are not currently holding for a target
 var _current_target : Node2D
@@ -28,22 +25,19 @@ func _ready():
 	var inputs := ["ui_up", "ui_down", "ui_left", "ui_right"]
 	
 	# Rather than hardcode it, the data can be generated. The easy song
-	# is eight measures, and we'll do things on beats 1 and 3
+	# is eight measures, with a one measure lead-in, 
+	# and we'll do things on beats 1 and 3
 	#
 	# Data Format:
 	#  [ measure, beat of measure to press, action, beats later to release ]
 	var DATA = []
-	for measure in range(1, 9):
+	for measure in range(2, 10): # Measures 2-9 with the lead-in
 		var input : String = inputs[randi() % inputs.size()]
 		DATA.append([measure, 1, input, 1])
 		DATA.append([measure, 3, input, 1])
 	
 	
 	var seconds_per_beat := 1.0 / tempo * 60
-	
-	# Set lead-in to the duration of one measure in seconds
-	# Or comment this out to test faster
-	_lead_in_duration = beats_per_measure * seconds_per_beat
 	
 	for datum in DATA:
 		var measure : int = datum[0]
@@ -59,22 +53,18 @@ func _ready():
 		target.action = action
 		target.start_time = start_time
 		target.end_time = end_time
-		# By default, they should not process. This is so that we can wait
-		# for the lead-in. Unfortunately, set_process did not work right here,
-		# so we use a state variable instead
-		target.active = false
 		
 		$TargetArea.add_child(target)
-		target.position = Vector2((start_time+_lead_in_duration)*Globals.pixels_per_second, 0)
+		target.position = Vector2(start_time*Globals.pixels_per_second, 0)
 		
 	# Set the next target to the first one
 	_next_target = $TargetArea.get_child(0)
 	
 	# Wait for the lead in, but start listening for events within tolerance.
-	yield(get_tree().create_timer(_lead_in_duration - tolerance), "timeout")
-	for target in $TargetArea.get_children():
-		target.active = true
-	yield(get_tree().create_timer(tolerance), "timeout")
+#	yield(get_tree().create_timer(_lead_in_duration - tolerance), "timeout")
+#	for target in $TargetArea.get_children():
+#		target.active = true
+#	yield(get_tree().create_timer(tolerance), "timeout")
 	$AudioStreamPlayer.play()
 
 var _next_target : HoldTarget = null
