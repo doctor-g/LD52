@@ -77,3 +77,13 @@ func _process(delta):
 	# Get the position in the stream in seconds
 	# Update the global value
 	Globals.elapsed_audio = $AudioStreamPlayer.get_playback_position()
+
+
+func _on_AudioStreamPlayer_finished():
+	$"%PlayAgainButton".visible = true
+
+
+func _on_PlayAgainButton_pressed():
+	Globals.reset()
+	# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://Game/Game.tscn")

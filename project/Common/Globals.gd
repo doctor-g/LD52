@@ -11,3 +11,8 @@ var score := 0
 # The scale of the application's elements and speed.
 # This is "pixels per second of audio duration".
 var pixels_per_second := 500
+
+
+func reset()->void:
+	score = 0
+	elapsed_audio = 0

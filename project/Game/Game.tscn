@@ -26,3 +26,19 @@ position = Vector2( 145, 772 )
 
 [node name="Dancer" parent="." instance=ExtResource( 3 )]
 position = Vector2( 291, 414 )
+
+[node name="PlayAgainButton" type="Button" parent="."]
+unique_name_in_owner = true
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -36.5
+margin_top = -10.0
+margin_right = 36.5
+margin_bottom = 10.0
+text = "PlayAgain"
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]
+[connection signal="pressed" from="PlayAgainButton" to="." method="_on_PlayAgainButton_pressed"]

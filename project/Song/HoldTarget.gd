@@ -77,8 +77,6 @@ func _process(_delta):
 				and other in _other_action_states \
 				and _other_action_states[other]==OtherActionState.STARTED:
 				_other_action_states[other] = OtherActionState.FINISHED
-		
-		
 
 
 func _in_tolerance(time:float)->bool:
