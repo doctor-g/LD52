@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Dancer/Dancer.gd" type="Script" id=1]
+[ext_resource path="res://Dancer/wood.png" type="Texture" id=2]
 
 [node name="Dancer" type="Node2D"]
 script = ExtResource( 1 )
@@ -9,29 +10,59 @@ script = ExtResource( 1 )
 unique_name_in_owner = true
 position = Vector2( 2, 1 )
 
-[node name="Knee_Right" type="Node2D" parent="Pelvis"]
-unique_name_in_owner = true
-position = Vector2( 41, 64 )
+[node name="TextureRect" type="TextureRect" parent="Pelvis"]
+margin_left = -24.0
+margin_top = -155.0
+margin_right = 26.0
+margin_bottom = 3.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
 
-[node name="Foot_Right" type="Node2D" parent="Pelvis/Knee_Right"]
+[node name="Hip_Left" type="Node2D" parent="Pelvis"]
 unique_name_in_owner = true
-position = Vector2( -1, 67 )
 
-[node name="Toe_Right" type="Node2D" parent="Pelvis/Knee_Right/Foot_Right"]
-unique_name_in_owner = true
-position = Vector2( 37, 4 )
+[node name="TextureRect" type="TextureRect" parent="Pelvis/Hip_Left"]
+margin_left = -9.0
+margin_top = -13.0
+margin_right = 14.0
+margin_bottom = 84.0
+rect_rotation = 43.3004
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
 
-[node name="Knee_Left" type="Node2D" parent="Pelvis"]
+[node name="Knee_Left" type="Node2D" parent="Pelvis/Hip_Left"]
 unique_name_in_owner = true
 position = Vector2( -60, 59 )
 
-[node name="Foot_Left" type="Node2D" parent="Pelvis/Knee_Left"]
+[node name="TextureRect" type="TextureRect" parent="Pelvis/Hip_Left/Knee_Left"]
+margin_left = -9.0
+margin_top = -11.0
+margin_right = 9.0
+margin_bottom = 73.0
+rect_rotation = -1.53714
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
+
+[node name="Foot_Left" type="Node2D" parent="Pelvis/Hip_Left/Knee_Left"]
 unique_name_in_owner = true
 position = Vector2( 1, 66 )
 
-[node name="Toe_Left" type="Node2D" parent="Pelvis/Knee_Left/Foot_Left"]
+[node name="Toe_Left" type="Node2D" parent="Pelvis/Hip_Left/Knee_Left/Foot_Left"]
 unique_name_in_owner = true
 position = Vector2( -33, 9 )
+
+[node name="TextureRect2" type="TextureRect" parent="Pelvis/Hip_Left/Knee_Left/Foot_Left"]
+margin_left = 4.0
+margin_top = -8.0
+margin_right = 20.0
+margin_bottom = 40.0
+rect_rotation = 80.3177
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
 
 [node name="Neck" type="Node2D" parent="Pelvis"]
 unique_name_in_owner = true
@@ -39,11 +70,31 @@ position = Vector2( 0, -148 )
 
 [node name="Shoulder_Left" type="Node2D" parent="Pelvis/Neck"]
 unique_name_in_owner = true
-position = Vector2( -61, 0 )
+position = Vector2( -34, 0 )
+
+[node name="TextureRect" type="TextureRect" parent="Pelvis/Neck/Shoulder_Left"]
+margin_left = -2.0
+margin_top = -9.0
+margin_right = 16.0
+margin_bottom = 70.0
+rect_rotation = 38.8172
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
 
 [node name="UpperArm_Left" type="Node2D" parent="Pelvis/Neck/Shoulder_Left"]
 unique_name_in_owner = true
 position = Vector2( -44, 54 )
+
+[node name="TextureRect" type="TextureRect" parent="Pelvis/Neck/Shoulder_Left/UpperArm_Left"]
+margin_left = -8.0
+margin_top = -2.0
+margin_right = 10.0
+margin_bottom = 77.0
+rect_rotation = -32.1656
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
 
 [node name="LowerArm_Left" type="Node2D" parent="Pelvis/Neck/Shoulder_Left/UpperArm_Left"]
 unique_name_in_owner = true
@@ -51,7 +102,17 @@ position = Vector2( 38, 55 )
 
 [node name="Shoulder_Right" type="Node2D" parent="Pelvis/Neck"]
 unique_name_in_owner = true
-position = Vector2( 66, 3 )
+position = Vector2( 31, 2 )
+
+[node name="TextureRect" type="TextureRect" parent="Pelvis/Neck/Shoulder_Right"]
+margin_left = -13.0
+margin_top = -2.0
+margin_right = 5.0
+margin_bottom = 77.0
+rect_rotation = -36.9501
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
 
 [node name="UpperArm_Right" type="Node2D" parent="Pelvis/Neck/Shoulder_Right"]
 unique_name_in_owner = true
@@ -61,6 +122,69 @@ position = Vector2( 35, 49 )
 unique_name_in_owner = true
 position = Vector2( -32, 59 )
 
+[node name="TextureRect" type="TextureRect" parent="Pelvis/Neck/Shoulder_Right/UpperArm_Right"]
+margin_left = -6.0
+margin_top = -8.0
+margin_right = 12.0
+margin_bottom = 71.0
+rect_rotation = 28.3456
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
+
 [node name="Head" type="Node2D" parent="Pelvis/Neck"]
 unique_name_in_owner = true
 position = Vector2( 0, -73 )
+
+[node name="TextureRect" type="TextureRect" parent="Pelvis/Neck/Head"]
+margin_left = -19.0
+margin_top = -1.0
+margin_right = 17.0
+margin_bottom = 52.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
+
+[node name="Hip_Right" type="Node2D" parent="Pelvis"]
+unique_name_in_owner = true
+
+[node name="TextureRect" type="TextureRect" parent="Pelvis/Hip_Right"]
+margin_left = -8.0
+margin_right = 12.0
+margin_bottom = 89.0
+rect_rotation = -34.0644
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
+
+[node name="Knee_Right" type="Node2D" parent="Pelvis/Hip_Right"]
+unique_name_in_owner = true
+position = Vector2( 41, 64 )
+
+[node name="TextureRect" type="TextureRect" parent="Pelvis/Hip_Right/Knee_Right"]
+margin_left = -8.0
+margin_top = -5.0
+margin_right = 10.0
+margin_bottom = 74.0
+rect_rotation = -1.53714
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
+
+[node name="Foot_Right" type="Node2D" parent="Pelvis/Hip_Right/Knee_Right"]
+unique_name_in_owner = true
+position = Vector2( -1, 67 )
+
+[node name="Toe_Right" type="Node2D" parent="Pelvis/Hip_Right/Knee_Right/Foot_Right"]
+unique_name_in_owner = true
+position = Vector2( 37, 4 )
+
+[node name="TextureRect3" type="TextureRect" parent="Pelvis/Hip_Right/Knee_Right/Foot_Right"]
+margin_left = 43.0
+margin_top = -5.0
+margin_right = 59.0
+margin_bottom = 43.0
+rect_rotation = 94.0042
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
