@@ -60,11 +60,6 @@ func _ready():
 	# Set the next target to the first one
 	_next_target = $TargetArea.get_child(0)
 	
-	# Wait for the lead in, but start listening for events within tolerance.
-#	yield(get_tree().create_timer(_lead_in_duration - tolerance), "timeout")
-#	for target in $TargetArea.get_children():
-#		target.active = true
-#	yield(get_tree().create_timer(tolerance), "timeout")
 	$AudioStreamPlayer.play()
 
 var _next_target : HoldTarget = null
@@ -73,9 +68,6 @@ var _next_target_index := 0
 
 func _process(delta):
 	$TargetArea.position.x -= delta * Globals.pixels_per_second
-	
-	# Get the position in the stream in seconds
-	# Update the global value
 	Globals.elapsed_audio = $AudioStreamPlayer.get_playback_position()
 
 
