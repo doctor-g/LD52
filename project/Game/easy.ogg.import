@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/easy.ogg-c63cbbde3f24e1a067dab3c5c6e883a4.oggstr"
+
+[deps]
+
+source_file="res://Game/easy.ogg"
+dest_files=[ "res://.import/easy.ogg-c63cbbde3f24e1a067dab3c5c6e883a4.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

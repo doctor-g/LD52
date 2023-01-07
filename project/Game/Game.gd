@@ -1,15 +1,29 @@
 extends Node
 
-const bpm := 120
-
-var EVENTS := [
-	RhythmEvent.new(1000, "ui_up"),
-	RhythmEvent.new(1500, "ui_up"),
-	RhythmEvent.new(2000, "ui_up")
+const DATA := [
+	[1, 1, "ui_up"],
+	[1, 3, "ui_down"],
+	[2, 1, "ui_up"],
+	[2, 3, "ui_down"]
 ]
+
+const _RhythmTarget := preload("res://Song/RhythmTarget.tscn")
 
 # Tolerance in milliseconds
 export var tolerance := 100
+
+# Beats per MINUTE
+export var tempo := 90
+
+# Beats per MEASURE
+export var beats_per_measure := 4
+
+# Time before the song starts in ms
+export var lead_in_time := 1000
+
+# The list of rhythm target events.
+# Created by the _ready() function.
+var _events := []
 
 var _start_ticks : int
 var _next_event_index := 0
@@ -17,11 +31,32 @@ var _next_event_index := 0
 func _ready():
 	_start_ticks = Time.get_ticks_msec()
 	
-	for event in EVENTS:
-		var target = preload("res://Song/RhythmTarget.tscn").instance()
+	var seconds_per_beat := 1.0 / tempo * 60
+	print("Seconds per beat: " + str(seconds_per_beat))
+	
+	for datum in DATA:
+		var measure : int = datum[0]
+		var beat_of_measure : int = datum[1]
+		var action : String = datum[2]
+		
+		var beat_of_song : int = (measure-1) * beats_per_measure + beat_of_measure
+		print("Beat of song " + str(beat_of_song))
+		# warning-ignore:narrowing_conversion
+		var time : int = (beat_of_song-1) * seconds_per_beat * 1000
+		
+		print("Time: " + str(time))
+		
+		var event := RhythmEvent.new(time, action)
+		_events.append(event)
+		
+		var target = _RhythmTarget.instance()
 		target.position = Vector2(event.time, 0)
 		target.event = event
 		$TargetArea.add_child(target)
+	
+	#yield(get_tree().create_timer(lead_in_time / 1000), "timeout")
+	$AudioStreamPlayer.play()
+
 
 
 func _process(delta):
@@ -31,10 +66,10 @@ func _process(delta):
 	var position = $AudioStreamPlayer.get_playback_position() * 1000
 	
 	# If there are no more events, just exit
-	if _next_event_index >= EVENTS.size():
+	if _next_event_index >= _events.size():
 		return
 	
-	var next_event = EVENTS[_next_event_index]
+	var next_event = _events[_next_event_index]
 	var next_target = $TargetArea.get_child(_next_event_index)
 	
 	# Did we miss one?
