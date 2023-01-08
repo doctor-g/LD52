@@ -11,13 +11,13 @@ size = 92
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
-size = 48
+[sub_resource type="DynamicFont" id=4]
+size = 32
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=4]
-size = 32
+[sub_resource type="DynamicFont" id=3]
+size = 48
 use_filter = true
 font_data = ExtResource( 1 )
 
@@ -41,14 +41,6 @@ rect_rotation = -11.2181
 custom_fonts/font = SubResource( 1 )
 text = "Ol' Limberlegs"
 
-[node name="PlayButton" type="Button" parent="."]
-margin_left = 182.0
-margin_top = 364.0
-margin_right = 430.0
-margin_bottom = 430.0
-custom_fonts/font = SubResource( 3 )
-text = "Hootenanny"
-
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 autoplay = true
@@ -65,4 +57,26 @@ Made for Ludum Dare 52 (\"Harvest\")"
 [node name="ButtonSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 
-[connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 174.0
+margin_top = 288.0
+margin_right = 418.0
+margin_bottom = 356.0
+
+[node name="EasyButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 244.0
+margin_bottom = 68.0
+custom_fonts/font = SubResource( 3 )
+text = "Pokey"
+
+[node name="MidButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 72.0
+margin_right = 244.0
+margin_bottom = 140.0
+custom_fonts/font = SubResource( 3 )
+text = "Hootenanny"
+
+[connection signal="pressed" from="VBoxContainer/EasyButton" to="." method="_on_EasyButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/MidButton" to="." method="_on_MidButton_pressed"]

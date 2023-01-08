@@ -10,10 +10,18 @@ export var tempo := 90
 # Beats per MEASURE
 export var beats_per_measure := 4
 
+# How many measures in the song, not counting the lead-in measure.
+export var measures : int = 9
+
+export var song : AudioStream
+
 var _next_target : HoldTarget = null
 
 
 func _ready():
+	assert(song!=null, "A song must be specified")
+	$Song.stream = song
+	
 	var inputs := ["up", "down", "left", "right"]
 	
 	# Rather than hardcode it, the data can be generated. The easy song
@@ -23,7 +31,7 @@ func _ready():
 	# Data Format:
 	#  [ measure, beat of measure to press, action, beats later to release ]
 	var DATA = []
-	for measure in range(2, 10): # Measures 2-9 with the lead-in
+	for measure in range(2, measures+1): # Measures 2-9 with the lead-in
 		var input : String = inputs[randi() % inputs.size()]
 		DATA.append([measure, 1, input, 1])
 		DATA.append([measure, 3, input, 1])
@@ -52,23 +60,13 @@ func _ready():
 	# Set the next target to the first one
 	_next_target = $"%TargetArea".get_child(0)
 	
-	$AudioStreamPlayer.play()
+	$Song.play()
 
 
 func _process(delta):
 	$"%TargetArea".position.x -= delta * Globals.pixels_per_second
-	Globals.elapsed_audio = $AudioStreamPlayer.get_playback_position()
+	Globals.elapsed_audio = $Song.get_playback_position()
 
 
 func _on_AudioStreamPlayer_finished():
-	$"%PlayAgainButton".visible = true
-
-
-func _on_PlayAgainButton_pressed():
-	$"%PlayAgainButton".disconnect("pressed", self, "_on_PlayAgainButton_pressed")
-	$ButtonSound.play()
-	yield($ButtonSound, "finished")
-	
-	Globals.reset()
-	# warning-ignore:return_value_discarded
-	get_tree().change_scene("res://Game/Game.tscn")
+	$HUD.show_menu(self)

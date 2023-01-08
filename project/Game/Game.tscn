@@ -20,6 +20,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 6 )
 script = ExtResource( 1 )
+song = ExtResource( 2 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
 margin_right = 600.0
@@ -28,8 +29,7 @@ texture = ExtResource( 8 )
 
 [node name="HUD" parent="." instance=ExtResource( 4 )]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 2 )
+[node name="Song" type="AudioStreamPlayer" parent="."]
 
 [node name="Dancer" parent="." instance=ExtResource( 3 )]
 position = Vector2( 301, 288 )
@@ -60,5 +60,5 @@ unique_name_in_owner = true
 [node name="ButtonSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
 
-[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]
+[connection signal="finished" from="Song" to="." method="_on_AudioStreamPlayer_finished"]
 [connection signal="pressed" from="PlayAgainButton" to="." method="_on_PlayAgainButton_pressed"]
