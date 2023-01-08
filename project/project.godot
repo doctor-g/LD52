@@ -20,7 +20,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="LD52"
+config/name="Ol' Limberlegs"
 run/main_scene="res://UI/Splash.tscn"
 config/icon="res://icon.png"
 
