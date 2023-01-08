@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://FreckleFace-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://UI/theme.tres" type="Theme" id=2]
+[ext_resource path="res://UI/Splash.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 1 )
+
+[node name="Splash" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.576471, 0.32549, 0.0784314, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ReadyButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -125.0
+margin_top = -24.0
+margin_right = 125.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 1 )
+text = "Ready!"
+
+[connection signal="pressed" from="ReadyButton" to="." method="_on_ReadyButton_pressed"]

@@ -10,13 +10,13 @@ size = 92
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=2]
-size = 32
+[sub_resource type="DynamicFont" id=3]
+size = 48
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
-size = 48
+[sub_resource type="DynamicFont" id=4]
+size = 32
 use_filter = true
 font_data = ExtResource( 1 )
 
@@ -40,15 +40,6 @@ rect_rotation = -11.2181
 custom_fonts/font = SubResource( 1 )
 text = "Ol' Limberlegs"
 
-[node name="About" type="Label" parent="."]
-margin_left = 58.0
-margin_top = 506.0
-margin_right = 545.0
-margin_bottom = 620.0
-custom_fonts/font = SubResource( 2 )
-text = "©2022 Paul Gestwicki
-Made for Ludum Dare 52 (\"Harvest\")"
-
 [node name="PlayButton" type="Button" parent="."]
 margin_left = 182.0
 margin_top = 364.0
@@ -60,5 +51,14 @@ text = "Hootenanny"
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 autoplay = true
+
+[node name="About" type="Label" parent="."]
+margin_left = 58.0
+margin_top = 506.0
+margin_right = 545.0
+margin_bottom = 620.0
+custom_fonts/font = SubResource( 4 )
+text = "©2022 Paul Gestwicki
+Made for Ludum Dare 52 (\"Harvest\")"
 
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
