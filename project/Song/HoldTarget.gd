@@ -118,6 +118,14 @@ func _draw():
 			color = Color.green
 	
 	var width := (end_time - start_time) * Globals.pixels_per_second
-	draw_rect(Rect2(0, -radius, width, radius*2), color)
-	draw_circle(Vector2.ZERO, radius, color)
-	draw_circle(Vector2(width, 0), radius, color)
+	var border := 5.0
+	var border_color := Color.sienna
+	
+	draw_circle(Vector2.ZERO, radius, border_color)
+	draw_circle(Vector2.ZERO, radius-border, color)
+	
+	draw_circle(Vector2(width, 0), radius, border_color)
+	draw_circle(Vector2(width, 0), radius-border, color)
+	
+	draw_rect(Rect2(0, -radius, width, radius*2), border_color)
+	draw_rect(Rect2(0, -radius+border, width, (radius-border)*2), color)
