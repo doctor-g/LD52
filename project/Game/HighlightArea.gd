@@ -19,4 +19,5 @@ func _draw():
 		pixels_per_second = Globals.pixels_per_second
 	
 	var radius := tolerance * pixels_per_second
-	draw_circle(Vector2.ZERO, radius, Color.white)
+	draw_circle(Vector2.ZERO, radius, Color.chocolate)
+	draw_circle(Vector2.ZERO, radius - 5.0, Color.white)
