@@ -1,6 +1,8 @@
-# LD52
+# Ol' Limberlegs
 
 Game jam game for Ludum Dare 52
+
+See the Ludum Dare entry for more details. (Link coming later.)
 
 &copy; 2022 Paul Gestwicki
 
