@@ -93,10 +93,15 @@ func _in_tolerance(time:float)->bool:
 
 func _set_state(new_state)->void:
 	_state = new_state
-	if _state == State.FAILED:
-		$MissSound.play()
-	elif _state == State.STARTED:
-		$StartSuccessSound.play()
+	match _state:
+		State.FAILED:
+			$MissSound.play()
+		State.STARTED:
+			$SuccessSound.play()
+		State.SUCCEEDED:
+			$SuccessSound.play()
+	
+	# Force a redraw to get the new colors
 	update()
 
 
