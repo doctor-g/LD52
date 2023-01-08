@@ -65,6 +65,10 @@ func _on_AudioStreamPlayer_finished():
 
 
 func _on_PlayAgainButton_pressed():
+	$"%PlayAgainButton".disconnect("pressed", self, "_on_PlayAgainButton_pressed")
+	$ButtonSound.play()
+	yield($ButtonSound, "finished")
+	
 	Globals.reset()
 	# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://Game/Game.tscn")
